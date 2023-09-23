@@ -1,5 +1,13 @@
 <?php
 
+require_once get_theme_file_path("/lib/csf/cs-framework.php");
+
+if(site_url() == "http://localhost/meal/"){
+    define("VERSION", time());
+}else{
+    define("VERSION", wp_get_theme()->get("Version"));
+}
+
 function meal_theme_setup(){
     load_theme_textdomain('meal', get_template_directory().'/languages');
 
