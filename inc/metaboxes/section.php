@@ -14,7 +14,7 @@ function meal_section_type_metabox($metboxes){
                 'icon' => 'fa fa-image',
                 'fields' => array(
                     array(
-                        'name' => 'type',
+                        'id' => 'type',
                         'title' => __('Select Section type', 'meal'),
                         'type' => 'select',
                         'options' => array(
