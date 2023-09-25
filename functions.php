@@ -79,3 +79,12 @@ function meal_codestar_init(){
     CSFramework_Metabox::instance(array());
 }
 add_action('init', 'meal_codestar_init');
+
+function get_recipe_category($recipe_id){
+    $terms = wp_get_post_terms($recipe_id, "category");
+    if($terms){
+        $first_term = array_shift($terms);
+        return $first_term->name;
+    }
+    return "Food";
+}
