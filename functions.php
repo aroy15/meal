@@ -6,6 +6,7 @@ require_once get_theme_file_path("/inc/metaboxes/page.php");
 require_once get_theme_file_path("/inc/metaboxes/section-banner.php");
 require_once get_theme_file_path("/inc/metaboxes/section-featured.php");
 require_once get_theme_file_path("/inc/metaboxes/section-gallery.php");
+require_once get_theme_file_path("/inc/metaboxes/section-chef.php");
 
 define('CS_ACTIVE_FRAMEWORK', false); //default true
 define('CS_ACTIVE_METABOX', true); //default true
