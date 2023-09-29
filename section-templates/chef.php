@@ -13,9 +13,12 @@ $meal_section_description = $meal_section->post_content;
                 <h2 class="heading mb-5"><?php echo esc_html($meal_section_title);?></h2>
             </div>
         </div>
+        <?php
+        $meal_section_chefs = $meal_section_meta['chef'];
+        if($meal_section_chefs):
+        ?>
         <div class="row">
-            <?php
-            $meal_section_chefs = $meal_section_meta['chef'];
+            <?php            
             foreach($meal_section_chefs as $meal_section_chef){
                 $meal_chef_img = wp_get_attachment_image_url($meal_section_chef['image'], 'medium');
                 $meal_chef_name = $meal_section_chef['name'];
@@ -51,5 +54,8 @@ $meal_section_description = $meal_section->post_content;
             ?>
             
         </div>
+        <?php
+        endif;
+        ?>
     </div>
 </div> <!-- .section -->
