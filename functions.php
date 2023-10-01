@@ -75,6 +75,12 @@ function meal_assets(){
     wp_enqueue_script('google-map', '//maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s', null, '1.0', true);
     wp_enqueue_script('portfolio', get_template_directory_uri().'/assets/js/portfolio.js', array('jquery', 'jquery-magnific-popup', 'imagesloaded', 'isotope-pkgd'), '1.0', true);
     wp_enqueue_script('main', get_template_directory_uri().'/assets/js/main.js', array('jquery'), '1.0', true);
+
+    if(is_page_template('page-templates/landing.php')){
+        wp_enqueue_script('meal-reservation-js', get_template_directory_uri().'/assets/js/reservation.js', array('jquery'), VERSION, true);
+        $ajaxurl = admin_url('admin-ajax.php');
+        wp_localize_script('meal-reservation-js', 'mealurl', array('ajaxurl' => $ajaxurl));
+    }
 }
 add_action('wp_enqueue_scripts', 'meal_assets');
 
@@ -94,3 +100,68 @@ function get_recipe_category($recipe_id){
     }
     return "Food";
 }
+
+function meal_process_reservation(){
+    if(check_ajax_referer('reservation', 'rn')){
+        $name = sanitize_text_field($_POST['name']);
+        $email = sanitize_text_field($_POST['email']);
+        $persons = sanitize_text_field($_POST['persons']);
+        $phone = sanitize_text_field($_POST['phone']);
+        $date = sanitize_text_field($_POST['date']);
+        $time = sanitize_text_field($_POST['time']);
+
+        $data = array(
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'persons' => $persons,
+            'date' => $date,
+            'time' => $time
+        );
+
+        // print_r($data);
+
+        $reservation_arguments = array(
+            'post_type' => 'reservation',
+            'post_author' => 1,
+            'post_date' => date('Y-m-d h:i:s'),
+            'post_status' => 'publish',
+            'post_title' => sprintf('%s - Reservation for %s persons on %s - %s', $name, $persons, $date." : ".$time, $email ),
+            'meta_input' => $data
+        );
+        $reservations = new WP_Query(array(
+            'post_type' => 'reservation',
+            'post_status' => 'publish',
+            'meta_query' => array(
+                'relation' => 'AND',
+                'email_check' => array(
+                    'key' => 'email',
+                    'value' => $email
+                ),
+                'date_check' => array(
+                    'key' => 'date',
+                    'value' => $date
+                ),
+                'time_check' => array(
+                    'key' => 'time',
+                    'value' => $time
+                )
+            )
+        ));
+        if($reservations->found_posts>0){
+            echo "duplicate";
+            die();
+        }else{
+            $wp_error = '';
+            wp_insert_post($reservation_arguments, $wp_error);
+            if(!$wp_error){
+                echo "successful";
+            }
+        }
+    }else{
+        echo 'not allowed';
+    }
+    die();
+}
+add_action('wp_ajax_reservation', 'meal_process_reservation');
+add_action('wp_ajax_nopriv_reservation', 'meal_process_reservation');
