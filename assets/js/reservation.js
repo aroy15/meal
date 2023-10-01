@@ -11,10 +11,13 @@
                 time: $("#time").val(),
                 rn: $("#rn").val(),
             }, function(data){
-                if('successful' == data){
-                    alert('Your reservation request has been placed');
-                }else if('duplicate' == data){
+                console.log(data);
+                if('duplicate' == data){
                     alert('You have already placed a request for this reservation. No need to submit again');
+                }else{
+                    $('#paynow').attr('href', data);
+                    $('#reservenow').hide();
+                    $('#paynow').show();
                 }
             });
             return false;
