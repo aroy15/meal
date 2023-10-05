@@ -80,8 +80,10 @@ function meal_assets(){
 
     if(is_page_template('page-templates/landing.php')){
         wp_enqueue_script('meal-reservation-js', get_template_directory_uri().'/assets/js/reservation.js', array('jquery'), VERSION, true);
+        wp_enqueue_script('meal-contact-js', get_template_directory_uri().'/assets/js/contact.js', array('jquery'), VERSION, true);
         $ajaxurl = admin_url('admin-ajax.php');
         wp_localize_script('meal-reservation-js', 'mealurl', array('ajaxurl' => $ajaxurl));
+        wp_localize_script('meal-contact-js', 'mealurl', array('ajaxurl' => $ajaxurl));
     }
 }
 add_action('wp_enqueue_scripts', 'meal_assets');
@@ -248,3 +250,18 @@ function meal_admin_scripts($screen){
     }
 }
 add_action('admin_enqueue_scripts', 'meal_admin_scripts');
+
+function meal_contact_email(){
+    $name = isset($_POST['cname']) ? $_POST['cname'] : '';
+    $email = isset($_POST['cemail']) ? $_POST['cemail'] : '';
+    $phone = isset($_POST['cphone']) ? $_POST['cphone'] : '';
+    $message = isset($_POST['cmessage']) ? $_POST['cmessage'] : '';
+
+    $_message = sprintf("%s \nFrom: %s\nEmail: %s\nPhone: %s", $message, $name, $email, $phone);
+    $admin_email = get_option('admin_email');
+    // wp_mail function parameters: to, subjuct, email data/message, from
+    wp_mail($admin_email, __('Someone tried to contact you', 'meal'), $_message, "From: {$admin_email}\r\n");
+    die('Successful');
+}
+add_action('wp_ajax_contact', 'meal_contact_email');
+add_action('wp_ajax_nopriv_contact', 'meal_contact_email');
