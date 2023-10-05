@@ -37,6 +37,8 @@ function meal_theme_setup(){
         'comment-list'
     ));
     add_theme_support('custom-logo');
+
+    register_nav_menu('primary', __('Main menu', 'meal'));
 }
 add_action('after_setup_theme', 'meal_theme_setup');
 
