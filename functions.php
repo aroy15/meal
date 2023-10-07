@@ -283,3 +283,12 @@ function meal_change_nav_menu($menus){
     return $menus;    
 }
 add_filter('wp_nav_menu_objects', 'meal_change_nav_menu');
+
+// Comments field re-order
+function meal_comment_form_fields($fields){
+    $comment_field = $fields['comment'];
+    unset($fields['comment']);
+    $fields['comment'] =  $comment_field;
+    return $fields;
+}
+add_filter('comment_form_fields', 'meal_comment_form_fields');
