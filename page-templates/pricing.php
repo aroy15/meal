@@ -39,34 +39,23 @@ the_post();
                         <?php 
                         $meal_counter = 0;
                         foreach($meal_pricing_items as $meal_pricing_item): 
+                            $meal_plan_one_data = apply_filters('meal_pricing_item', $meal_pricing_one_items[$meal_counter]);
+                            $meal_plan_two_data = apply_filters('meal_pricing_item', $meal_pricing_two_items[$meal_counter]);
                         ?>
                         <tr>
                             <td><strong><?php echo esc_html($meal_pricing_item);?></strong></td>
-                            <td><?php echo esc_html($meal_pricing_one_items[$meal_counter]);?></td>
-                            <td><?php echo esc_html($meal_pricing_two_items[$meal_counter]);?></td>
+                            <td>
+                                <?php echo wp_kses_post($meal_plan_one_data);?>
+                            </td>
+                            <td>
+                                <?php echo wp_kses_post($meal_plan_two_data);?>
+                            </td>
                         </tr>
                         <?php 
                         $meal_counter++;
                         endforeach;
                         ?>
-                        <tr class="gray-bg">
-                            <td>More Item</td>
-                            <td>
-                                <i class="fa fa-check plan-active-color fa-2x" aria-hidden="true"></i>
-                            </td>
-                            <td>
-                                <i class="fa fa-check plan-active-color fa-2x" aria-hidden="true"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>More Item</td>
-                            <td>
-                                <i class="fa fa-ellipsis-h plan-inactive-color fa-2x" aria-hidden="true"></i>
-                            </td>
-                            <td>
-                                <i class="fa fa-check plan-active-color fa-2x" aria-hidden="true"></i>
-                            </td>
-                        </tr>
+                       
                         <tr>
                             <td>
                                 <strong><?php _e('Action', 'meal');?></strong>
