@@ -58,6 +58,8 @@ function meal_assets(){
     wp_enqueue_style('flaticon', get_template_directory_uri().'/assets/fonts/flaticon/font/flaticon.css', null, '1.0');
     wp_enqueue_style('portfolio', get_template_directory_uri().'/assets/css/portfolio.css', null, '1.0');
     wp_enqueue_style('style', get_template_directory_uri().'/assets/css/style.css', null, '1.0');
+    // MailChimp
+    // wp_enqueue_style('','//cdn-images.mailchimp.com/embedcode/classic-061523.css');
     wp_enqueue_style('meal-style', get_stylesheet_uri());
 
     // JavaScripts
@@ -77,6 +79,36 @@ function meal_assets(){
     // wp_enqueue_script('magnific-popup-options', get_template_directory_uri().'/assets/js/magnific-popup-options.js', array('jquery'), '1.0', true);
     wp_enqueue_script('google-map', '//maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s', null, '1.0', true);
     wp_enqueue_script('portfolio', get_template_directory_uri().'/assets/js/portfolio.js', array('jquery', 'jquery-magnific-popup', 'imagesloaded', 'isotope-pkgd'), '1.0', true);
+    
+    // Mailchimp
+    if(is_page_template('page-templates/mailchimp.php')){
+        wp_enqueue_style('mailchimp-css', '//cdn-images.mailchimp.com/embedcode/classic-061523.css');
+        $style = <<<EOD
+        #mc_embed_signup{
+            background:#fff; 
+            clear:left; 
+            font:14px Helvetica,Arial,sans-serif; 
+            width: 600px;
+        }
+        EOD;
+        wp_enqueue_style('mailchimp-css', $style);
+        wp_enqueue_script('mailchimp-js', '//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js', null, '1.0', true );
+        $script = <<<EOD
+        (function($) {
+            window.fnames = new Array(); 
+            window.ftypes = new Array();
+            fnames[0]='EMAIL';ftypes[0]='email';
+            fnames[1]='FNAME';ftypes[1]='text';
+            fnames[2]='LNAME';ftypes[2]='text';
+            fnames[4]='PHONE';ftypes[4]='phone';
+            fnames[3]='ADDRESS';ftypes[3]='address';
+            fnames[5]='BIRTHDAY';ftypes[5]='birthday';
+        }(jQuery));
+        var \$mcj = jQuery.noConflict(true);
+        EOD;
+        wp_add_inline_script('mailchimp-js', $script);
+    }
+    
     wp_enqueue_script('main', get_template_directory_uri().'/assets/js/main.js', array('jquery'), '1.0', true);
 
     if(is_page_template('page-templates/landing.php')){
