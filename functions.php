@@ -78,6 +78,7 @@ function meal_assets(){
     wp_enqueue_script('jquery-isotope', get_template_directory_uri().'/assets/js/jquery.isotope.js', array('jquery'), '1.0', true);
     // wp_enqueue_script('magnific-popup-options', get_template_directory_uri().'/assets/js/magnific-popup-options.js', array('jquery'), '1.0', true);
     wp_enqueue_script('google-map', '//maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s', null, '1.0', true);
+    wp_enqueue_script('meal-loadmore-js', get_template_directory_uri().'/assets/js/loadmore.js', array('jquery'), VERSION, true);
     wp_enqueue_script('portfolio', get_template_directory_uri().'/assets/js/portfolio.js', array('jquery', 'jquery-magnific-popup', 'imagesloaded', 'isotope-pkgd'), '1.0', true);
     
     // Mailchimp
@@ -336,3 +337,8 @@ function mea_process_pricing_item($item){
     return $item;
 }
 add_filter('meal_pricing_item', 'mea_process_pricing_item');
+
+function get_max_page_number(){
+    global $wp_query;
+    return $wp_query->max_num_pages;
+} 

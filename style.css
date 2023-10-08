@@ -131,3 +131,12 @@ Text Domain: meal
 .plan-inactive-color {
     color: #ee6055;
 }
+#posts-container{
+    display: grid;
+    gap:30px;
+}
+#posts-container > div{
+    padding:20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
