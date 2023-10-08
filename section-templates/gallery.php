@@ -23,7 +23,13 @@ $meal_section_description = $meal_section->post_content;
 <?php
 $meal_gallery_items =  $meal_section_meta['portfolio'];
 $meal_item_categories = [];
+$meal_number_of_images = $meal_section_meta['nimages'];
+$meal_counter = 0;
+
 foreach($meal_gallery_items as $meal_gallery_item){
+    if($meal_counter>= $meal_number_of_images){
+        break;
+    }
     $meal_gallery_item_categories = explode(',', $meal_gallery_item['categories']);
 
     foreach($meal_gallery_item_categories as $meal_gallery_item_category){
@@ -34,6 +40,7 @@ foreach($meal_gallery_items as $meal_gallery_item){
             array_push($meal_item_categories, $meal_gallery_item_category);
         }
     }
+    $meal_counter++;
 }
 
 ?>
@@ -54,9 +61,14 @@ foreach($meal_gallery_items as $meal_gallery_item){
                     </ul>
                 </div>
 
-                <div class="portfolio-grid portfolio-gallery grid-4 gutter">
+                <div class="portfolio-grid portfolio-gallery grid-4 gutter" data-image="<?php echo esc_attr($meal_number_of_images);?>">
                     <?php
-                    foreach($meal_gallery_items as $meal_gallery_item):
+                    $meal_counter = 0;
+                    foreach($meal_gallery_items as $meal_gallery_item):                        
+                        if($meal_counter>= $meal_number_of_images){
+                            break;
+                        }
+
                         $meal_item_class = str_replace(",", " ", $meal_gallery_item['categories']);
                         $meal_item_image_id = $meal_gallery_item['image'];
                         $meal_item_thumbnail = wp_get_attachment_image_src($meal_item_image_id, 'medium')[0];
@@ -64,7 +76,7 @@ foreach($meal_gallery_items as $meal_gallery_item){
                         // $meal_item_categories_array = explode(",", $meal_gallery_item['categories']);
                     ?>
                     <div class="portfolio-item <?php echo esc_attr($meal_item_class);?>">
-                        <a href="<?php echo esc_url($meal_item_large);?>" class="portfolio-image popup-gallery" title="">
+                        <a href="<?php echo esc_url($meal_item_large);?>" class="portfolio-image popup-gallery">
                             <img src="<?php  echo esc_url($meal_item_thumbnail);?>" alt="" />
                             <div class="portfolio-hover-title">
                                 <div class="portfolio-content">
@@ -82,9 +94,11 @@ foreach($meal_gallery_items as $meal_gallery_item){
                         </a>
                     </div>
                     <?php 
+                        $meal_counter++;
                     endforeach;
                     ?>
                 </div>
+                <button id="loadmorep" class="btn-info btn"><?php _e('Load More', 'meal');?></button>
             </div>
         </div>
     </div>
