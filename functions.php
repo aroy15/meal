@@ -4,6 +4,7 @@ require_once get_theme_file_path("/lib/csf/cs-framework.php");
 require_once get_theme_file_path("/inc/metaboxes/section.php");
 require_once get_theme_file_path("/inc/metaboxes/recipe.php");
 require_once get_theme_file_path("/inc/metaboxes/page.php");
+require_once get_theme_file_path("/inc/metaboxes/pricing.php");
 require_once get_theme_file_path("/inc/metaboxes/section-banner.php");
 require_once get_theme_file_path("/inc/metaboxes/section-featured.php");
 require_once get_theme_file_path("/inc/metaboxes/section-gallery.php");

@@ -3,17 +3,21 @@
 /**
  * Template Name: Pricing Page
  */
-
-get_header();
 ?>
 
-<div class="main-wrap">
-    <?php
-    $meal_section_id = 17;
-    get_template_part("section-templates/banner");
-    the_post();
-    ?>
+<?php
+$meal_pricing_meta = get_post_meta(get_the_ID(), 'meal-pricing-options', true);
+$meal_pricing_items = explode("\n", $meal_pricing_meta['items']);
+$meal_pricing_one_items = explode("\n", $meal_pricing_meta['plan-one-items']);
+$meal_pricing_two_items = explode("\n", $meal_pricing_meta['plan-two-items']);
 
+get_header();
+
+$meal_section_id = 17;
+get_template_part("section-templates/banner");
+the_post();
+?>
+<div class="main-wrap">
     <div class="section bg-white" data-aos="fade-up">
         <div class="container">
             <div class="row section-heading justify-content-center mb-5">
@@ -27,55 +31,53 @@ get_header();
                     <thead>
                         <tr>
                             <th scope="col"></th>
-                            <th scope="col">Small Plan</th>
-                            <th scope="col">Big Plan</th>
+                            <th scope="col"><?php echo esc_html($meal_pricing_meta['plan-one-title']);?></th>
+                            <th scope="col"><?php echo esc_html($meal_pricing_meta['plan-two-title']);?></th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php 
+                        $meal_counter = 0;
+                        foreach($meal_pricing_items as $meal_pricing_item): 
+                        ?>
                         <tr>
-                            <td>Item One</td>
-                            <td>Text One</td>
-                            <td>Text Two</td>
+                            <td><strong><?php echo esc_html($meal_pricing_item);?></strong></td>
+                            <td><?php echo esc_html($meal_pricing_one_items[$meal_counter]);?></td>
+                            <td><?php echo esc_html($meal_pricing_two_items[$meal_counter]);?></td>
                         </tr>
-                        <tr>
-                            <td>Item One</td>
-                            <td>Text One</td>
-                            <td>Text Two</td>
-                        </tr>
-                        <tr>
-                            <td>Item One</td>
-                            <td>Text One</td>
-                            <td>Text Two</td>
+                        <?php 
+                        $meal_counter++;
+                        endforeach;
+                        ?>
+                        <tr class="gray-bg">
+                            <td>More Item</td>
+                            <td>
+                                <i class="fa fa-check plan-active-color fa-2x" aria-hidden="true"></i>
+                            </td>
+                            <td>
+                                <i class="fa fa-check plan-active-color fa-2x" aria-hidden="true"></i>
+                            </td>
                         </tr>
                         <tr>
                             <td>More Item</td>
                             <td>
-                                <i class="fa fa-check plan-active-color" aria-hidden="true"></i>
+                                <i class="fa fa-ellipsis-h plan-inactive-color fa-2x" aria-hidden="true"></i>
                             </td>
                             <td>
-                                <i class="fa fa-check plan-active-color" aria-hidden="true"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>More Item</td>
-                            <td>
-                                <i class="fa fa-ellipsis-h plan-inactive-color" aria-hidden="true"></i>
-                            </td>
-                            <td>
-                                <i class="fa fa-check plan-active-color" aria-hidden="true"></i>
+                                <i class="fa fa-check plan-active-color fa-2x" aria-hidden="true"></i>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong></strong>
+                                <strong><?php _e('Action', 'meal');?></strong>
                             </td>
                             <td>
-                                <a href="#" class="btn btn-danger">
+                                <a href="<?php echo esc_url($meal_pricing_meta['plan-one-action']);?>" class="btn btn-danger">
                                     <?php _e('Get This Plan', 'meal'); ?>
                                 </a>
                             </td>
                             <td>
-                                <a href="#" class="btn btn-danger">
+                                <a href="<?php echo esc_url($meal_pricing_meta['plan-two-action']);?>" class="btn btn-danger">
                                     <?php _e('Get This Plan', 'meal'); ?>
                                 </a>
                             </td>
