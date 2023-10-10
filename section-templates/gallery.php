@@ -44,7 +44,7 @@ foreach($meal_gallery_items as $meal_gallery_item){
 }
 
 ?>
-<div class="section bg-white pt-2 pb-2 text-center" data-aos="fade">
+<div class="section bg-white pt-2 pb-5 text-center" data-aos="fade">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -61,7 +61,14 @@ foreach($meal_gallery_items as $meal_gallery_item){
                     </ul>
                 </div>
 
-                <div class="portfolio-grid portfolio-gallery grid-4 gutter" data-image="<?php echo esc_attr($meal_number_of_images);?>">
+                <div class="portfolio-grid portfolio-gallery grid-4 gutter" 
+                    data-images="<?php echo esc_attr($meal_number_of_images);?>"
+                    data-sid="<?php echo esc_attr($meal_section_id);?>"
+                    data-ni="<?php echo esc_attr($meal_number_of_images);?>"
+                >
+                    <?php
+                    wp_nonce_field('loadmorep', 'loadmorep');
+                    ?>
                     <?php
                     $meal_counter = 0;
                     foreach($meal_gallery_items as $meal_gallery_item):                        
@@ -98,7 +105,7 @@ foreach($meal_gallery_items as $meal_gallery_item){
                     endforeach;
                     ?>
                 </div>
-                <button id="loadmorep" class="btn-info btn"><?php _e('Load More', 'meal');?></button>
+                <button id="loadmorepbtn" class="btn-info btn"><?php _e('Load More', 'meal');?></button>
             </div>
         </div>
     </div>
